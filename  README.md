@@ -22,7 +22,7 @@
 2) Через коносоль: Сначала соберите JAR  ./gradlew build, а затем запустите напрямую  java -jar build/libs/shortLink-0.0.1-SNAPSHOT.jar 
 #### Запуск тестов:
 1) Через IDE (IntelliJ): Нажмите Run на пакете test → Произойдет запуск всех тестов
-2) Через коносоль: /gradlew test
+2) Через коносоль: (`./gradlew test`)
 ----
 ### Требования
 - Java 17+
@@ -38,9 +38,31 @@
 7. test/ - тесты (JUnit 5 + Mockito)
 ----
 
+## CI/CD (GitHub Actions)
+
+Проект настроен с автоматической системой непрерывной интеграции:
+
+### Автоматические проверки:
+- **При каждом push** и **pull request**
+- **Сборка и тестирование** на Ubuntu + Java 17
+- **Проверка качества кода**
+
+### Workflow этапы:
+1. **Checkout** - получение кода из репозитория
+2. **JDK 17** - установка Java окружения
+3. **Permissions** - настройка прав для Gradle Wrapper
+4. **Tests** - запуск всех unit-тестов (`./gradlew test`)
+5. **Build** - сборка приложения (`./gradlew build`)
+
+### Файл конфигурации:
+`.github/workflows/build.yml`
+
+### Мониторинг:
+- Детальные логи доступны в Actions tab
+- Уведомления о failed builds
+----
 
 ## API Endpoints
-
 
 1. POST /shorten?url={URL}&clickLimit={LIMIT} - Создание короткой ссылки
 
