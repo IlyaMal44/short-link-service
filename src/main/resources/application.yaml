@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: ShortLink
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  link:
+    base-url: http://localhost:8080
+    default-ttl-hours: 24
+    code-length: 9
+  cleanup:
+    interval: 3600000
+
+logging:
+  level:
+    com.promoit: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+    org.hibernate.SQL: false
+  pattern:
+    console: "[%d{HH:mm:ss}] %msg%n"
+  file:
+    name: logs/app.log
