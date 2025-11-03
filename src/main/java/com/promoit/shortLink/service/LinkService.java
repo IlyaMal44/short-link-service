@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import static com.promoit.shortLink.utils.StringUtils.truncateUrl;
 
 @Slf4j
 @Service
@@ -88,10 +89,28 @@ public class LinkService {
     /**
      * Периодическая очистка просроченных ссылок, выполняется автоматически по расписанию (по умолчанию 1 час)
      */
-    @Scheduled(fixedRateString = "${app.cleanup.interval:3600000}")
+    @Scheduled(fixedRateString = "#{@appConfig.cleanupInterval}")
     public void scheduledDeleteExpiredLinks() {
         log.info("Starting the removal of expired links on a schedule");
-        linkRepository.deleteExpiredLinks(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+
+        List<LinkEntity> expiredLinks = linkRepository.findByExpiresAtBefore(now);
+        if (expiredLinks.isEmpty()) {
+            log.info("CLEANUP - No expired links found");
+            return;
+        }
+
+        for (LinkEntity link : expiredLinks) {
+            log.info("CLEANUP - Removing link: {} (User: {}, Expired: {}, Original: {})",
+                    link.getShortCode(),
+                    link.getUser().getId(),
+                    link.getExpiresAt(),
+                    truncateUrl(link.getOriginalUrl(), 50));
+
+            notificationService.notifyLinkUnavailable(link, "Link expired automatically");
+        }
+        linkRepository.deleteAll(expiredLinks);
+        log.info("CLEANUP - Completed! Removed {} expired links", expiredLinks.size());
     }
 
     /**

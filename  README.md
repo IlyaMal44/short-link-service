@@ -38,7 +38,8 @@
 3. domain/entity/ - LinkEntity, UserEntity (модели данных)
 4. domain/repository/ - LinkRepository, UserRepository (доступ к БД)
 5. service/ - LinkService, UserService, NotificationService (бизнес-логика)
-6. test/ - 20+ тестов (JUnit 5 + Mockito)
+6. utils/StringUtils/ - утилиты для работы со строками
+7. test/ - тесты (JUnit 5 + Mockito)
 ----
 
 

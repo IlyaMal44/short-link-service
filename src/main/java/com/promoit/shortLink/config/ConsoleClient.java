@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.List;
 import java.net.URI;
 import java.util.Scanner;
+import static com.promoit.shortLink.utils.StringUtils.truncateUrl;
 
 
 @Profile("!test")
@@ -201,13 +202,6 @@ public class ConsoleClient implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println("Ошибка при получении ссылок: " + e.getMessage());
         }
-    }
-
-    private String truncateUrl(String url, int maxLength) {
-        if (url.length() <= maxLength) {
-            return url;
-        }
-        return url.substring(0, maxLength - 3) + "...";
     }
 
 }
