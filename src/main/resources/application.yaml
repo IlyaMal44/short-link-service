@@ -33,6 +33,9 @@ logging:
     org.springframework: WARN
     org.hibernate: WARN
     org.hibernate.SQL: false
+    org.springframework.web.servlet.DispatcherServlet: WARN
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: WARN
+    org.apache.catalina.core: WARN
   pattern:
     console: "[%d{HH:mm:ss}] %msg%n"
   file:

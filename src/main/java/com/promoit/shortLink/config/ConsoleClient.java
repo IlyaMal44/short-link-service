@@ -109,7 +109,6 @@ public class ConsoleClient implements CommandLineRunner {
         }
     }
 
-
     private void openShortLinkInBrowser() {
         try {
             System.out.print("Введите короткий код ссылки: ");
@@ -129,12 +128,38 @@ public class ConsoleClient implements CommandLineRunner {
                 return;
             }
 
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(new URI(shortUrl));
+            boolean opened = false;
+            String os = System.getProperty("os.name").toLowerCase();
+
+            System.out.println("Попытка 1: открытие через системные команды");
+            try {
+                if (os.contains("mac")) {
+                    Runtime.getRuntime().exec(new String[]{"open", shortUrl});
+                } else if (os.contains("win")) {
+                    Runtime.getRuntime().exec(new String[]{"rundll32", "url.dll,FileProtocolHandler", shortUrl});
+                } else {
+                    Runtime.getRuntime().exec(new String[]{"xdg-open", shortUrl});
+                }
+                opened = true;
+            } catch (Exception e) {
+                System.out.println("Системные команды не сработали: " + e.getMessage());
+                System.out.println("Перехожу к попытке 2");
+            }
+
+            if (!opened) {
+                System.out.println("Попытка 2: открытие через Java Desktop API");
+                try {
+                    Desktop.getDesktop().browse(new URI(shortUrl));
+                    opened = true;
+                } catch (Exception e) {
+                    System.out.println("Java Desktop не сработал: " + e.getMessage());
+                }
+            }
+
+            if (opened) {
                 System.out.println("Ссылка открыта в браузере!");
             } else {
-                System.out.println("Не удалось открыть браузер автоматически");
-                System.out.println("Скопируйте ссылку вручную: " + shortUrl);
+                System.out.println("Скопируйте вручную: " + shortUrl);
             }
 
         } catch (Exception e) {

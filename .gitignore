@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# logs
+logs/
+app.logs/
+*.log
+/app.log
