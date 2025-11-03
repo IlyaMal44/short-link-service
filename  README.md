@@ -16,18 +16,14 @@
 - Gradle
 - JUnit 5 + Mockito
 ----
-## Запуск приложения:
-#### Через IDE (IntelliJ):
-1) Откройте ShortLinkApplication.java
-2) Нажмите Run → Будет работать и REST API и CLI меню
-#### Для CLI интерфейса:
-1) Сначала соберите JAR  ./gradlew build
-2) Затем запустите напрямую  java -jar build/libs/shortLink-0.0.1-SNAPSHOT.jar
-#### Запуск тестов
-1) /gradlew test
-2) Нажмите Run на пакете test → Произойдет запуск всех тестов
+## Запуск приложения и тестов:
+#### Запуск приложения:
+1) Через IDE (IntelliJ): Откройте ShortLinkApplication.java и далее нажмите Run 
+2) Через коносоль: Сначала соберите JAR  ./gradlew build, а затем запустите напрямую  java -jar build/libs/shortLink-0.0.1-SNAPSHOT.jar 
+#### Запуск тестов:
+1) Через IDE (IntelliJ): Нажмите Run на пакете test → Произойдет запуск всех тестов
+2) Через коносоль: /gradlew test
 ----
-
 ### Требования
 - Java 17+
 - Gradle
