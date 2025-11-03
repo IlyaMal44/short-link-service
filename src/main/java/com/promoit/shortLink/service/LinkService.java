@@ -89,12 +89,14 @@ public class LinkService {
     /**
      * Периодическая очистка просроченных ссылок, выполняется автоматически по расписанию (по умолчанию 1 час)
      */
+    @Transactional
     @Scheduled(fixedRateString = "#{@appConfig.cleanupInterval}")
     public void scheduledDeleteExpiredLinks() {
         log.info("Starting the removal of expired links on a schedule");
         LocalDateTime now = LocalDateTime.now();
 
         List<LinkEntity> expiredLinks = linkRepository.findByExpiresAtBefore(now);
+
         if (expiredLinks.isEmpty()) {
             log.info("CLEANUP - No expired links found");
             return;
