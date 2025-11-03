@@ -16,6 +16,6 @@ public class AppConfig {
     private int defaultTtlHours;
     @Value("${app.link.code-length:9}")
     private int codeLength;
-    @Value("${app.cleanup.interval:3600000}")
+    @Value("${app.cleanup.interval:3600000}")  // 1 hour
     private String cleanupInterval;
 }
